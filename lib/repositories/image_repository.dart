@@ -7,7 +7,7 @@ import '../core/error/error_exceptions.dart';
 import '../core/error/failure.dart';
 
 abstract class ImageRepository {
-  Future<Either<Failure, ListImageResponse>> getImage(String page);
+  Future<Either<Failure, List<Photo>>> getImage(String page);
 }
 
 class ImageRepositoryImpl implements ImageRepository {
@@ -20,12 +20,12 @@ class ImageRepositoryImpl implements ImageRepository {
   });
 
   @override
-  Future<Either<Failure, ListImageResponse>> getImage(String page) async {
+  Future<Either<Failure, List<Photo>>> getImage(String page) async {
     if (await networkInfo.isConncted) {
       try {
         final imageData = await remoteDataSource.getImage(page);
 
-        return Right(imageData);
+        return Right(imageData.photos ?? [],);
       } on ServerException {
         return Left(
           ServerFailure(),
