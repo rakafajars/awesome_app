@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
           ),
-          itemCount: 20,
+          itemCount: 21,
           itemBuilder: (context, index) {
             return Container(
               child: Card(

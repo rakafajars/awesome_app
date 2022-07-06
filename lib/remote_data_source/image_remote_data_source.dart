@@ -3,7 +3,7 @@ import 'package:project_awesome/core/error/error_exceptions.dart';
 import 'package:project_awesome/data/image/list_image_response.dart';
 
 abstract class ImageRemoteDataSource {
-  Future<ListImageResponse> getImage();
+  Future<ListImageResponse> getImage(String page);
 }
 
 class ImageRemoteDataImpl implements ImageRemoteDataSource {
@@ -14,13 +14,14 @@ class ImageRemoteDataImpl implements ImageRemoteDataSource {
   });
 
   @override
-  Future<ListImageResponse> getImage() async {
+  Future<ListImageResponse> getImage(String page) async {
     final response = await dio.get(
-      'https://flask-scraping-cncbind.herokuapp.com/api/v1/cnbc-news-articles',
+      'https://api.pexels.com/v1/curated?page=$page&per_page=20',
       options: Options(
         headers: {
-
-        }
+          "Authorization":
+              "563492ad6f91700001000001b464699e4345455e9d96310f89c1d0c8"
+        },
       ),
     );
 
@@ -32,5 +33,4 @@ class ImageRemoteDataImpl implements ImageRemoteDataSource {
       throw ServerException();
     }
   }
-
 }
