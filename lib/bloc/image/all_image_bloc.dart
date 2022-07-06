@@ -18,9 +18,7 @@ class AllImageBloc extends Bloc<AllImageEvent, AllImageState> {
     required ImageRepository repository,
   })  : repository = repository,
         super(AllImageEmpty()) {
-    on<AllImageEvent>((event, emit) {
-      _fetchAllImage;
-    });
+    on<AllImageEvent>(_fetchAllImage);
   }
 
   Future<void> _fetchAllImage(
@@ -82,9 +80,9 @@ class AllImageBloc extends Bloc<AllImageEvent, AllImageState> {
     } else {
       switch (failure.runtimeType) {
         case ServerFailure:
-          return const AllImageError(message: 'Server Failure');
+          return AllImageError(message: 'Server Failure');
         case CacheFailure:
-          return const AllImageError(message: 'Cache  Failure');
+          return AllImageError(message: 'Cache  Failure');
 
         default:
           return 'Unexpected error';
@@ -93,31 +91,31 @@ class AllImageBloc extends Bloc<AllImageEvent, AllImageState> {
   }
 
   _eitherLoadedOrEmptyState({
-    required List<Photo> data,
+    required List<Photo>? data,
     required bool isPaging,
     String? page,
     ListImageResponse? listExist,
   }) {
-    if (data.isNotEmpty) {
+    if (data?.isNotEmpty ?? true) {
       if (isPaging) {
         if (page != null && int.parse(page) == (listExist?.page ?? 0) + 1) {
-          for (var element in data) {
+          data?.forEach((element) {
             listExist?.photos?.add(element);
-          }
+          });
 
           return AllImageLoaded(
-            listPhoto: listExist?.photos,
+            listPhoto: listExist?.photos ?? [],
             page: page,
           );
         } else {
           return AllImageLoaded(
-            listPhoto: listExist!.photos,
-            page: listExist.page.toString(),
+            listPhoto: listExist?.photos ?? [],
+            page: listExist?.page.toString() ?? "0",
           );
         }
       } else {
         return AllImageLoaded(
-          listPhoto: data,
+          listPhoto: data ?? [],
           page: '1',
         );
       }

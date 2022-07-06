@@ -1,7 +1,8 @@
 part of 'all_image_bloc.dart';
 
 abstract class AllImageState extends Equatable {
-  const AllImageState();
+  @override
+  List<Object> get props => [];
 }
 
 class AllImageEmpty extends AllImageState {
@@ -15,13 +16,13 @@ class AllImageLoading extends AllImageState {
 }
 
 class AllImageLoaded extends AllImageState {
-  final List<Photo>? listPhoto;
+  final List<Photo> listPhoto;
   final String page;
 
-  const AllImageLoaded({required this.listPhoto, required this.page});
+  AllImageLoaded({required this.listPhoto, required this.page});
   @override
   List<Object> get props => [
-        listPhoto ?? [],
+        listPhoto,
         page,
       ];
 }
@@ -29,7 +30,7 @@ class AllImageLoaded extends AllImageState {
 class AllImageError extends AllImageState {
   final String message;
 
-  const AllImageError({
+  AllImageError({
     required this.message,
   });
 

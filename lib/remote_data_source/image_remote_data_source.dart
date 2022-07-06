@@ -16,7 +16,7 @@ class ImageRemoteDataImpl implements ImageRemoteDataSource {
   @override
   Future<ListImageResponse> getImage(String page) async {
     final response = await dio.get(
-      'https://api.pexels.com/v1/curated?page=$page&per_page=20',
+      'https://api.pexels.com/v1/curated?page=$page&per_page=12',
       options: Options(
         headers: {
           "Authorization":
@@ -25,7 +25,10 @@ class ImageRemoteDataImpl implements ImageRemoteDataSource {
       ),
     );
 
+
     if (response.statusCode == 200) {
+      print(page);
+      print('Masuk');
       return ListImageResponse.fromJson(
         response.data,
       );
