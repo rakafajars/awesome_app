@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -35,7 +36,38 @@ class _HomePageState extends State<HomePage> {
             ),
           ];
         },
-        body: Container(),
+        body: GridView.builder(
+          gridDelegate:
+              const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+          itemCount: 20,
+          itemBuilder: (context, index) {
+            return Container(
+              child: const Card(
+                color: Colors.deepPurpleAccent,
+                child: ImageNetwork(
+                  image: 'https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg',
+                  height: 150,
+                  width: 150,
+                  duration: 1500,
+                  curve: Curves.easeIn,
+                  onPointer: true,
+                  debugPrint: false,
+                  fullScreen: false,
+                  fitAndroidIos: BoxFit.cover,
+                  fitWeb: BoxFitWeb.cover,
+                  onLoading:  CircularProgressIndicator(
+                    color: Colors.indigoAccent,
+                  ),
+                  onError:  Icon(
+                    Icons.error,
+                    color: Colors.red,
+                  ),
+
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
