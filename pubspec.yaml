@@ -39,7 +39,8 @@ dependencies:
   data_connection_checker: ^0.3.4
   json_annotation: ^4.5.0
   equatable: ^2.0.3
-  image_network: ^2.5.1
+  freezed: ^2.0.4
+  cached_network_image: ^3.2.1
 
 dev_dependencies:
   flutter_test:

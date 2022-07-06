@@ -1,5 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:image_network/image_network.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -37,33 +37,48 @@ class _HomePageState extends State<HomePage> {
           ];
         },
         body: GridView.builder(
-          gridDelegate:
-              const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+          ),
           itemCount: 20,
           itemBuilder: (context, index) {
             return Container(
-              child: const Card(
+              child: Card(
                 color: Colors.deepPurpleAccent,
-                child: ImageNetwork(
-                  image: 'https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg',
-                  height: 150,
-                  width: 150,
-                  duration: 1500,
-                  curve: Curves.easeIn,
-                  onPointer: true,
-                  debugPrint: false,
-                  fullScreen: false,
-                  fitAndroidIos: BoxFit.cover,
-                  fitWeb: BoxFitWeb.cover,
-                  onLoading:  CircularProgressIndicator(
-                    color: Colors.indigoAccent,
+                child: CachedNetworkImage(
+                  imageUrl:
+                      "https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg",
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      const Padding(
+                    padding: EdgeInsets.all(20),
+                    child: CircularProgressIndicator(
+                      color: Colors.indigoAccent,
+                    ),
                   ),
-                  onError:  Icon(
+                  errorWidget: (context, url, error) => const Icon(
                     Icons.error,
-                    color: Colors.red,
                   ),
-
                 ),
+                // child: ImageNetwork(
+                //   image: 'https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg',
+                //   height: 150,
+                //   width: 150,
+                //   duration: 1500,
+                //   curve: Curves.easeIn,
+                //   onPointer: true,
+                //   debugPrint: false,
+                //   fullScreen: false,
+                //   fitAndroidIos: BoxFit.cover,
+                //   fitWeb: BoxFitWeb.cover,
+                //   onLoading:  CircularProgressIndicator(
+                //     color: Colors.indigoAccent,
+                //   ),
+                //   onError:  Icon(
+                //     Icons.error,
+                //     color: Colors.red,
+                //   ),
+                //
+                // ),
               ),
             );
           },
