@@ -27,7 +27,9 @@ class ItemPhotoList extends StatelessWidget {
         );
       },
       child: Container(
-        decoration:  BoxDecoration(
+        width: 200.0,
+        height: 100.0,
+        decoration: BoxDecoration(
           color: Color(colorBackground),
           borderRadius: const BorderRadius.all(
             Radius.circular(8),
