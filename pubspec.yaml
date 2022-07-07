@@ -40,6 +40,7 @@ dependencies:
   json_annotation: ^4.5.0
   equatable: ^2.0.3
   cached_network_image: ^3.2.1
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   flutter_test:

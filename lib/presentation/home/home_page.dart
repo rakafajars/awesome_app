@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_awesome/bloc/image/all_image_bloc.dart';
+import 'package:project_awesome/presentation/home/widget/item_photo_list.dart';
 
 import '../../data/image/list_image_response.dart';
 
@@ -58,8 +58,8 @@ class _HomePageState extends State<HomePage> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              expandedHeight: 200.0,
-              floating: false,
+              expandedHeight: 100.0,
+              floating: true,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
@@ -106,47 +106,10 @@ class _HomePageState extends State<HomePage> {
       ),
       itemCount: photoList.length,
       itemBuilder: (context, index) {
-        return Container(
-          child: Card(
-            color: Colors.deepPurpleAccent,
-            child: CachedNetworkImage(
-              fit: BoxFit.cover,
-              imageUrl: photoList[index].src?.original ?? "",
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  const Padding(
-                padding: EdgeInsets.all(20),
-                child: CircularProgressIndicator(
-                  color: Colors.indigoAccent,
-                ),
-              ),
-              errorWidget: (context, url, error) => const Icon(
-                Icons.error,
-              ),
-            ),
-          ),
+        return ItemPhotoList(
+          photo: photoList[index],
         );
       },
     );
   }
 }
-
-// child: ImageNetwork(
-//   image: 'https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg',
-//   height: 150,
-//   width: 150,
-//   duration: 1500,
-//   curve: Curves.easeIn,
-//   onPointer: true,
-//   debugPrint: false,
-//   fullScreen: false,
-//   fitAndroidIos: BoxFit.cover,
-//   fitWeb: BoxFitWeb.cover,
-//   onLoading:  CircularProgressIndicator(
-//     color: Colors.indigoAccent,
-//   ),
-//   onError:  Icon(
-//     Icons.error,
-//     color: Colors.red,
-//   ),
-//
-// )

@@ -16,7 +16,7 @@ class ImageRemoteDataImpl implements ImageRemoteDataSource {
   @override
   Future<ListImageResponse> getImage(String page) async {
     final response = await dio.get(
-      'https://api.pexels.com/v1/curated?page=$page&per_page=12',
+      'https://api.pexels.com/v1/curated?page=$page&per_page=21',
       options: Options(
         headers: {
           "Authorization":
