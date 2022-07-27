@@ -4,13 +4,17 @@ Awesome App
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+## Flutter Version
 
-A few resources to get you started if this is your first Flutter project:
+    • Flutter version 3.0.4 at C:\Development\flutter
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision 85684f9300 (6 days ago), 2022-06-30 13:22:47 -0700
+    • Engine revision 6ba2af10bb
+    • Dart version 2.17.5
+    • DevTools version 2.12.2
+    
+## Running Apps
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Flutter Pub Get
+2. Set argmunet --no-sound-null-safety in vscode / android studio
+3. run debug flutter run lib/main.dart
