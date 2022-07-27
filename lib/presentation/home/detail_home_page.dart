@@ -1,13 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:project_awesome/core/utils/custome_download.dart';
+import 'package:project_awesome/core/utils/custome_pdf.dart';
 import 'package:project_awesome/core/utils/custome_web_view.dart';
+import 'package:project_awesome/core/utils/utils_global.dart';
 import 'package:project_awesome/data/image/list_image_response.dart';
-import 'package:path/path.dart' as paths;
-
-final Dio dio = Dio();
 
 class DetailHomePage extends StatefulWidget {
   final Photo photo;
@@ -21,59 +18,38 @@ class DetailHomePage extends StatefulWidget {
 }
 
 class _DetailHomePageState extends State<DetailHomePage> {
-  Future<void> _downloadFile({
-    required String urlPath,
-  }) async {
-    final dir = await getApplicationDocumentsDirectory();
-
-    final filename = urlPath.substring(urlPath.lastIndexOf("/") + 1);
-
-    final savePath = paths.join(dir.path, filename);
-
-    await _startDownload(
-      savePath: savePath,
-      urlPath: urlPath,
-      fileName: filename,
-    );
-  }
-
-  Future<void> _startDownload({
-    required String savePath,
-    required String urlPath,
-    required String fileName,
-  }) async {
-    Map<String, dynamic> result = {
-      "success": false,
-      "filePath": null,
-      "error": null,
-      "done": "done",
-    };
-    try {
-      final response = await dio.download(
-        urlPath,
-        savePath,
-        options: Options(
-          headers: {
-            'version': '1.0',
-          },
-        ),
-      );
-
-      result["success"] = response.statusCode == 200;
-      result["filePath"] = savePath;
-    } catch (e) {
-      print("error $e");
-      result["error"] = e.toString();
-    } finally {
-      if (result["success"] == true) {
-        final FlutterShareMe flutterShareMe = FlutterShareMe();
-        await flutterShareMe.shareToWhatsApp(
-          imagePath: savePath,
-          fileType: FileType.image,
-        );
-      }
-    }
-  }
+  // final pdf = pw.Document();
+  //
+  // Future<File> _openPdf() async {
+  //   final pdf = pw.Document();
+  //
+  //   pdf.addPage(
+  //     pw.Page(
+  //       build: (pw.Context context) => pw.Center(
+  //         child: pw.Text('Hello World!'),
+  //       ),
+  //     ),
+  //   );
+  //
+  //   return saveDocument(name: 'my_example.pdf', pdf: pdf);
+  // }
+  //
+  // static Future<File> saveDocument({
+  //   required String name,
+  //   required pw.Document pdf,
+  // }) async {
+  //   // pdf save to the variable called bytes
+  //   final bytes = await pdf.save();
+  //
+  //   // here a beautiful pakage  path provider helps us and take dircotory and name of the file  and made a proper file in internal storage
+  //   final dir = await getApplicationDocumentsDirectory();
+  //   final file = File('${dir.path}/$name');
+  //
+  //   await file.writeAsBytes(bytes);
+  //
+  //   // reterning the file to the top most method which is generate centered text.
+  //   return file;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +119,13 @@ class _DetailHomePageState extends State<DetailHomePage> {
                 top: 32,
                 right: 15,
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () async {
+                    final pdfFile = await CustomePdf.openPdf(
+                      widget.photo,
+                    );
+
+                    openFile(pdfFile);
+                  },
                   child: Container(
                     height: 32,
                     width: 32,
@@ -197,8 +179,8 @@ class _DetailHomePageState extends State<DetailHomePage> {
                 const SizedBox(height: 4),
                 GestureDetector(
                   onTap: () async {
-                    _downloadFile(
-                      urlPath: (widget.photo.src?.original ?? ""),
+                    CustomeDownload.downloadFile(
+                      urlPath: widget.photo.src?.original ?? "",
                     );
                   },
                   child: Container(

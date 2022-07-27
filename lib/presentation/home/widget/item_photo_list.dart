@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:project_awesome/data/image/list_image_response.dart';
 import 'package:project_awesome/presentation/home/detail_home_page.dart';
 
-import '../../../injection_container.dart';
 
 class ItemPhotoList extends StatelessWidget {
   final Photo photo;
