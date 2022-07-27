@@ -18,3 +18,6 @@ Awesome App
 1. Flutter Pub Get
 2. Set argmunet --no-sound-null-safety in vscode / android studio
 3. run debug flutter run lib/main.dart
+
+## Download APK
+https://drive.google.com/drive/folders/1opw8zyv5_SfOmWE2jlvzWuWA5J2Mfgja?usp=sharing
