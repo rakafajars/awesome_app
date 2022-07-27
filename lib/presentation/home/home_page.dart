@@ -66,58 +66,29 @@ class _HomePageState extends State<HomePage> {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
-        child: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                expandedHeight: 100.0,
-                floating: true,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: const Text(
-                    "Awesome Apps",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  background: CachedNetworkImage(
-                    imageUrl:
-                        "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                    fit: BoxFit.cover,
-                    errorWidget: (context, url, error) => const Icon(
-                      Icons.error,
-                    ),
-                  ),
-                ),
-              ),
-            ];
-          },
-          body: BlocBuilder<AllImageBloc, AllImageState>(
-            builder: (context, state) {
-              if (state is AllImageLoading) {
-                return _itemListPhotoLoading();
-              }
-              if (state is AllImageError) {
-                return Center(
-                  child: Text(state.message),
-                );
-              }
-              if (state is AllImageLoaded) {
-                _listPhoto = state.listPhoto;
-                _page = int.parse(state.page);
+        child: BlocBuilder<AllImageBloc, AllImageState>(
+          builder: (context, state) {
+            if (state is AllImageLoading) {
+              return _itemListPhotoLoading();
+            }
+            if (state is AllImageError) {
+              return Center(
+                child: Text(state.message),
+              );
+            }
+            if (state is AllImageLoaded) {
+              _listPhoto = state.listPhoto;
+              _page = int.parse(state.page);
 
-                return _itemListPhoto(_listPhoto);
-              } else if (state is AllImageLoadingPagination) {
-                return _itemListPhoto(_listPhoto);
-              } else if (state is AllImageEmptyPagination) {
-                return _itemListPhoto(_listPhoto);
-              } else {
-                return Container();
-              }
-            },
-          ),
+              return _itemListPhoto(_listPhoto, false);
+            } else if (state is AllImageLoadingPagination) {
+              return _itemListPhoto(_listPhoto, true);
+            } else if (state is AllImageEmptyPagination) {
+              return _itemListPhoto(_listPhoto, false);
+            } else {
+              return Container();
+            }
+          },
         ),
       ),
     );
@@ -125,6 +96,7 @@ class _HomePageState extends State<HomePage> {
 
   GridView _itemListPhotoLoading() {
     return GridView.builder(
+      physics: const BouncingScrollPhysics(),
       controller: _controllerScroll,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
@@ -149,18 +121,30 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  GridView _itemListPhoto(List<Photo> photoList) {
-    return GridView.builder(
-      controller: _controllerScroll,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-      ),
-      itemCount: photoList.length,
-      itemBuilder: (context, index) {
-        return ItemPhotoList(
-          photo: photoList[index],
-        );
-      },
+  Widget _itemListPhoto(List<Photo> photoList, bool isProgress) {
+    return Column(
+      children: [
+        const SizedBox(height: 4),
+        Expanded(
+          child: GridView.builder(
+            physics: const BouncingScrollPhysics(),
+            controller: _controllerScroll,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+            ),
+            itemCount: photoList.length,
+            itemBuilder: (context, index) {
+              return ItemPhotoList(
+                photo: photoList[index],
+              );
+            },
+          ),
+        ),
+        if(isProgress  ==true) ...[
+          const SizedBox(height: 4),
+          const CircularProgressIndicator(),
+        ],
+      ],
     );
   }
 }
